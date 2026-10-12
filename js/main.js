@@ -196,8 +196,9 @@ function select(id, focusTab = false) {
   tabs.forEach(b => { const on = b.dataset.id === id; b.setAttribute("aria-selected", on); b.tabIndex = on ? 0 : -1; if (on && focusTab) b.focus();
     if (on && narrow()) { const t = $("#toc"), r = b.getBoundingClientRect(), tr = t.getBoundingClientRect(); t.scrollTo({ left: t.scrollLeft + r.left - tr.left - 16, behavior: reduced ? "auto" : "smooth" }); } });
   const pl = p.on && PLAT[p.on[0]];
-  $("#detail").innerHTML = `<div class="where"><span class="label">${esc(p.where)}</span>${pl ? `<span class="label">Built on</span>${platImg(p.on[0])}` : ""}</div>
-    <h3>${esc(p.title)}</h3><p class="sum">${esc(p.summary)}</p>
+  $("#detail").innerHTML = `<h3>${esc(p.title)}</h3>
+    <p class="byline"><span>${esc(p.where)}</span>${pl ? `<span>Built on</span>${platImg(p.on[0])}` : ""}</p>
+    <p class="sum">${esc(p.summary)}</p>
     ${p.outcome ? `<p class="outcome">${STAR(18)}<span>${esc(p.outcome)}</span></p>` : ""}
     <div class="cols"><div><span class="label">What I built</span><ul class="built">${p.built.map(b => `<li>${STAR(12)}<span>${esc(b)}</span></li>`).join("")}</ul>
       ${p.objects ? `<span class="label" style="display:block;margin-top:22px">What stays in sync</span><div class="chips">${p.objects.map(o => `<span class="chip plain">${esc(o)}</span>`).join("")}</div>` : ""}</div>
@@ -232,10 +233,10 @@ $("#plats").addEventListener("pointermove", e => { const c = e.target.closest(".
 /* ---------- experience along the ecliptic ---------- */
 function drawArc() {
   const box = $("#arc"), w = box.clientWidth, h = box.clientHeight; if (!w) return;
-  const y0 = 2021.4, y1 = 2026.75, X = y => 14 + (y - y0) / (y1 - y0) * (w - 28);
+  const y0 = 2020.9, y1 = 2026.75, X = y => 14 + (y - y0) / (y1 - y0) * (w - 28);
   const curve = x => { const t = (x - 14) / (w - 28); return h * .78 - Math.sin(t * Math.PI) * h * .5; };
   const pathFor = (a, b, lift = 0) => { let d = ""; for (let i = 0; i <= 40; i++) { const x = X(a + (b - a) * i / 40); d += `${i ? "L" : "M"}${x.toFixed(1)},${(curve(x) - lift).toFixed(1)}`; } return d; };
-  const roles = $$("#roles .job").map((r, i) => ({ from: +r.dataset.from, to: +r.dataset.to, lift: +(r.dataset.lane || 0), now: r.classList.contains("now"), i }));
+  const roles = $$("#roles .job").map((r, i) => ({ from: +r.dataset.from, to: +r.dataset.to, lift: +(r.dataset.lane || 0), label: r.dataset.label || "", now: r.classList.contains("now"), i }));
   let s = `<path d="${pathFor(y0, y1)}" fill="none" stroke="var(--line)" stroke-width="1"/>`;
   for (let y = 2021; y <= 2026; y++) { if (y < y0) continue; const x = X(y), c = curve(x);
     s += `<line x1="${x}" y1="${c - 6}" x2="${x}" y2="${c + 6}" stroke="var(--gold)" stroke-width="1"/><text class="yr" x="${x}" y="${c + 24}" text-anchor="middle">${y}</text>`; }
@@ -243,6 +244,7 @@ function drawArc() {
     if (r.to - r.from < .05) { const x = X(r.from), c = curve(x) - lift; s += `<circle cx="${x}" cy="${c}" r="4" fill="var(--gold)"/>`; return; }
     s += `<path class="span" d="${pathFor(r.from, r.to, lift)}" fill="none" stroke="var(--gold)" stroke-width="${r.now ? 3 : 2}" stroke-linecap="round" opacity="${r.now ? 1 : .8}"/>`;
     [r.from, r.to].forEach(y => { const x = X(y), c = curve(x) - lift; s += `<circle cx="${x}" cy="${c}" r="3" fill="var(--bg)" stroke="var(--gold)" stroke-width="1.5"/>`; });
+    if (r.label && w > 560) { const mid = (r.from + r.to) / 2, x = X(mid), c = curve(x) - lift; s += `<text class="span-l" x="${x}" y="${c - 12}" text-anchor="middle">${r.label}</text>`; }
   });
   box.innerHTML = `<svg viewBox="0 0 ${w} ${h}" aria-hidden="true">${s}</svg>`;
 }

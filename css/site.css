@@ -74,7 +74,9 @@ main,header,footer{position:relative;z-index:2}
 /* nav */
 .nav{position:fixed;inset:0 0 auto;z-index:20;border-bottom:1px solid transparent;transition:background-color .35s var(--ease),border-color .35s var(--ease)}
 .nav.solid{background:color-mix(in srgb,var(--bg) 95%,transparent);border-color:var(--line-2)}
-.nav .wrap{height:68px;display:flex;align-items:center;gap:28px}
+.nav::before{content:"";position:absolute;inset:0 0 -36px;pointer-events:none;background:linear-gradient(180deg,color-mix(in srgb,var(--bg) 78%,transparent) 0%,color-mix(in srgb,var(--bg) 40%,transparent) 60%,transparent);transition:opacity .35s var(--ease)}
+.nav.solid::before{opacity:0}
+.nav .wrap{position:relative;height:68px;display:flex;align-items:center;gap:28px}
 .brand{font:700 20px/1 var(--display);letter-spacing:-.02em;text-decoration:none;margin-right:auto;white-space:nowrap;transition:opacity .4s var(--ease),transform .4s var(--ease),visibility .4s}
 .nav:not(.brand-on) .brand{opacity:0;transform:translateY(-6px);visibility:hidden}
 .nav nav{display:flex;gap:26px}
@@ -103,13 +105,13 @@ h2 em{font-style:normal;color:var(--gold-hi)}
 h3{font-size:clamp(24px,2.2vw,32px);line-height:1.1}
 p{text-wrap:pretty}
 .intro{color:var(--muted);font-size:18.5px;max-width:56ch;margin-top:18px}
-section{position:relative;padding-block:clamp(84px,11vw,150px)}
+section{position:relative;padding-block:clamp(64px,8vw,112px)}
 .plate{background:color-mix(in srgb,var(--plate) 93%,transparent);border:1px solid var(--line);border-radius:var(--r)}
 .label{font:500 12px/1 var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 
 /* hero */
 .hero{min-height:100svh;padding-block:0;display:flex;align-items:flex-end}
-.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,color-mix(in srgb,var(--bg) 80%,transparent) 0%,color-mix(in srgb,var(--bg) 45%,transparent) 30%,transparent 52%)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(0deg,color-mix(in srgb,var(--bg) 90%,transparent) 0%,color-mix(in srgb,var(--bg) 66%,transparent) 34%,transparent 58%)}
 .hero .wrap{position:relative}
 .hero .wrap{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:40px;padding-bottom:clamp(40px,8vh,88px);padding-top:120px}
 .hero h1{font-size:clamp(48px,6vw,86px);font-weight:650;letter-spacing:-.018em;line-height:.98}
@@ -196,10 +198,11 @@ section{position:relative;padding-block:clamp(84px,11vw,150px)}
 .log li i{font-style:normal;color:var(--gold-hi)}
 :root[data-theme="day"] .log li i{color:var(--gold)}
 .detail{margin-top:18px;padding:clamp(22px,3vw,36px)}
-.detail .where{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
-.detail .where .on{display:inline-flex;align-items:center;background:var(--tile);border-radius:6px;height:24px;padding:0 8px}
-.detail .where .on img{height:13px;width:auto}
-.detail h3{margin-top:14px;font-size:clamp(28px,2.6vw,40px)}
+.detail h3{font-size:clamp(28px,2.6vw,40px)}
+.detail .byline{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:15px;color:var(--muted)}
+.detail .byline span+span::before{content:"";display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--gold);margin:0 10px 3px 0;vertical-align:middle}
+.detail .byline .on{display:inline-flex;align-items:center;background:var(--tile);border-radius:6px;height:24px;padding:0 8px}
+.detail .byline .on img{height:13px;width:auto}
 .detail .sum{margin-top:14px;color:var(--muted);max-width:66ch}
 .outcome{margin-top:20px;display:flex;gap:12px;align-items:flex-start;font:500 clamp(19px,1.6vw,22px)/1.4 var(--display);color:var(--ink)}
 .outcome svg{flex:none;width:18px;height:18px;margin-top:5px;color:var(--gold)}
@@ -228,6 +231,8 @@ section{position:relative;padding-block:clamp(84px,11vw,150px)}
 .arc{position:relative;height:150px}
 .arc svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .arc .yr{font:500 12px var(--mono);fill:var(--muted)}
+.arc .span-l{font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;fill:var(--gold-hi)}
+:root[data-theme="day"] .arc .span-l{fill:var(--gold)}
 .roles{margin-top:28px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
 .job{display:grid;gap:8px;align-content:start;padding-top:16px;border-top:1px solid var(--line-2)}
 .job .when{font:500 12.5px/1.2 var(--mono);color:var(--muted);letter-spacing:.04em}
