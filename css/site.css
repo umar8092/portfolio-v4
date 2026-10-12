@@ -302,8 +302,9 @@ footer a:hover{color:var(--ink)}
 /* responsive, explicit per layout */
 @media (max-width:1180px){
   .nav nav{gap:20px}
-  .plats{grid-template-columns:repeat(3,minmax(0,1fr))}
   .applist{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pcard{min-height:140px;padding:24px 10px 16px}
+  .pcard img{max-width:86%}
   .work .grid{grid-template-columns:minmax(0,340px) minmax(0,1fr)}
 }
 @media (max-width:980px){
@@ -326,6 +327,9 @@ footer a:hover{color:var(--ink)}
   .roles{grid-template-columns:1fr 1fr}
   .two,.contact .card{grid-template-columns:1fr}
   .cols{grid-template-columns:1fr;gap:24px}
+}
+@media (max-width:900px){
+  .plats{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (max-width:640px){
   :root{--gut:20px}
